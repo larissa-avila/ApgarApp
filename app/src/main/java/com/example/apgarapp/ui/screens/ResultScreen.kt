@@ -85,7 +85,7 @@ fun ResultScreen(
         AlertDialog(
             onDismissRequest = { showClinicalAlert = false },
             containerColor = Color.White,
-            icon = { Text("", fontSize = 40.sp) },
+            icon = { Icon(Icons.Default.Warning, contentDescription = null, tint = ScoreCritical, modifier = Modifier.size(40.dp)) },
             title = {
                 Text(
                     "Critical Score — Immediate Action Required",
@@ -184,7 +184,8 @@ fun ResultScreen(
                                 modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Text("", fontSize = 14.sp)
+                                Icon(Icons.Default.Face, contentDescription = null,
+                                    tint = Color.White, modifier = Modifier.size(14.dp))
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(lastEval.patientName, color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
                             }
@@ -234,6 +235,55 @@ fun ResultScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // ── Birth Record Card (always shown) ──────────────────────────
+            Card(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                elevation = CardDefaults.cardElevation(2.dp)
+            ) {
+                Column(modifier = Modifier.padding(18.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier.size(34.dp)
+                                .background(PurpleAccent.copy(alpha = 0.12f), CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(Icons.Default.Assignment, contentDescription = null,
+                                tint = PurpleAccent, modifier = Modifier.size(18.dp))
+                        }
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text("Birth Record", fontWeight = FontWeight.ExtraBold,
+                            color = MedicalBlueDark, fontSize = 15.sp)
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    BirthInfoRow(Icons.Default.Face, "Baby", lastEval?.patientName?.takeIf { it.isNotBlank() } ?: "—")
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp), color = BackgroundLight)
+                    BirthInfoRow(Icons.Default.Person, "Mother", lastEval?.motherName?.takeIf { it.isNotBlank() } ?: "—")
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp), color = BackgroundLight)
+                    BirthInfoRow(Icons.Default.Person, "Father", lastEval?.fatherName?.takeIf { it.isNotBlank() } ?: "—")
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp), color = BackgroundLight)
+                    BirthInfoRow(Icons.Default.MedicalServices, "Attending", lastEval?.attendingStaff?.takeIf { it.isNotBlank() } ?: "—")
+                    if (lastEval?.notes?.isNotBlank() == true) {
+                        HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp), color = BackgroundLight)
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                            verticalAlignment = Alignment.Top
+                        ) {
+                            Icon(Icons.Default.Notes, contentDescription = null, tint = PurpleAccent,
+                                modifier = Modifier.size(18.dp))
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Column {
+                                Text("Notes: ", fontSize = 13.sp, color = Color.Gray, fontWeight = FontWeight.SemiBold)
+                                Text(lastEval.notes, fontSize = 13.sp, color = MedicalBlueDark, lineHeight = 19.sp)
+                            }
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
+
             // ── Score breakdown ─────────────────────────────────────────────
             Card(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
@@ -282,62 +332,6 @@ fun ResultScreen(
             }
 
             Spacer(modifier = Modifier.height(14.dp))
-
-            // ── Birth Team & Family Card ──────────────────────────────────
-            val hasBirthInfo = listOf(lastEval?.motherName, lastEval?.fatherName, lastEval?.attendingStaff)
-                .any { it?.isNotBlank() == true }
-            if (hasBirthInfo) {
-                Card(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
-                    elevation = CardDefaults.cardElevation(2.dp)
-                ) {
-                    Column(modifier = Modifier.padding(18.dp)) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(modifier = Modifier.size(34.dp).background(PurpleAccent.copy(alpha = 0.12f), CircleShape),
-                                contentAlignment = Alignment.Center) {
-                                Text("‍‍", fontSize = 16.sp)
-                            }
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Text("Birth Team & Family", fontWeight = FontWeight.ExtraBold,
-                                color = MedicalBlueDark, fontSize = 15.sp)
-                        }
-                        Spacer(modifier = Modifier.height(12.dp))
-                        if (lastEval?.motherName?.isNotBlank() == true) {
-                            BirthInfoRow("", "Mother", lastEval.motherName)
-                        }
-                        if (lastEval?.fatherName?.isNotBlank() == true) {
-                            BirthInfoRow("", "Father", lastEval.fatherName)
-                        }
-                        if (lastEval?.attendingStaff?.isNotBlank() == true) {
-                            BirthInfoRow("", "Attending", lastEval.attendingStaff)
-                        }
-                    }
-                }
-                Spacer(modifier = Modifier.height(14.dp))
-            }
-
-            // ── Clinical notes if present ─────────────────────────────────
-            if (lastEval?.notes?.isNotBlank() == true) {
-                Card(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
-                    elevation = CardDefaults.cardElevation(2.dp)
-                ) {
-                    Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.Top) {
-                        Icon(Icons.Default.Notes, contentDescription = null, tint = MedicalTeal, modifier = Modifier.size(20.dp))
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Column {
-                            Text("Clinical Notes", fontWeight = FontWeight.Bold, color = MedicalBlueDark, fontSize = 14.sp)
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text(lastEval.notes, color = Color.DarkGray, fontSize = 13.sp, lineHeight = 19.sp)
-                        }
-                    }
-                }
-                Spacer(modifier = Modifier.height(14.dp))
-            }
 
             // ── Interpretation ──────────────────────────────────────────────
             Card(
@@ -457,14 +451,16 @@ fun ResultScreen(
 }
 
 @Composable
-private fun BirthInfoRow(emoji: String, label: String, value: String) {
+private fun BirthInfoRow(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, value: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(emoji, fontSize = 16.sp, modifier = Modifier.width(26.dp))
+        Icon(icon, contentDescription = null, tint = PurpleAccent,
+            modifier = Modifier.size(18.dp))
+        Spacer(modifier = Modifier.width(8.dp))
         Text("$label: ", fontSize = 13.sp, color = Color.Gray, fontWeight = FontWeight.SemiBold)
         Text(value, fontSize = 13.sp, color = MedicalBlueDark, fontWeight = FontWeight.Medium)
     }

@@ -117,10 +117,10 @@ private fun HistoryCard(
     evaluation: ApgarEvaluation,
     onDelete: () -> Unit
 ) {
-    val (scoreColor, scoreLabel, scoreEmoji) = when {
-        evaluation.totalScore >= 7 -> Triple(ScoreGood, "Normal", "")
-        evaluation.totalScore in 4..6 -> Triple(ScoreModerate, "Moderate", "")
-        else -> Triple(ScoreCritical, "Critical", "")
+    val (scoreColor, scoreLabel, scoreIcon) = when {
+        evaluation.totalScore >= 7 -> Triple(ScoreGood, "Normal", Icons.Default.CheckCircle)
+        evaluation.totalScore in 4..6 -> Triple(ScoreModerate, "Moderate", Icons.Default.Warning)
+        else -> Triple(ScoreCritical, "Critical", Icons.Default.Error)
     }
 
     Card(
@@ -155,7 +155,8 @@ private fun HistoryCard(
                 Spacer(modifier = Modifier.width(14.dp))
                 Column(modifier = Modifier.weight(1f)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(scoreEmoji, fontSize = 15.sp)
+                        Icon(scoreIcon, contentDescription = null,
+                            tint = scoreColor, modifier = Modifier.size(16.dp))
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             scoreLabel,
@@ -206,10 +207,10 @@ private fun HistoryCard(
             // Score breakdown per criterion
             val criteriaOrder = listOf(
                 Triple("❤️", "Heart Rate", "pulse"),
-                Triple("", "Breathing", "respiration"),
-                Triple("", "Reflex", "grimace"),
-                Triple("", "Muscle Tone", "activity"),
-                Triple("", "Color", "appearance")
+                Triple("💨", "Breathing", "respiration"),
+                Triple("😮", "Reflex", "grimace"),
+                Triple("💪", "Muscle Tone", "activity"),
+                Triple("🎨", "Color", "appearance")
             )
             val dotColors = listOf(MedicalBlue, MedicalTeal, GoldAccent, PurpleAccent, ScoreGood)
 

@@ -81,7 +81,10 @@ fun HomeScreen(
                     Box(modifier = Modifier.size(100.dp).background(Color.White.copy(alpha = 0.08f), CircleShape),
                         contentAlignment = Alignment.Center) {
                         Box(modifier = Modifier.size(76.dp).background(Color.White.copy(alpha = 0.14f), CircleShape),
-                            contentAlignment = Alignment.Center) { Text("", fontSize = 40.sp) }
+                            contentAlignment = Alignment.Center) {
+                            Icon(Icons.Default.Favorite, contentDescription = null,
+                                tint = Color.White, modifier = Modifier.size(40.dp))
+                        }
                     }
                     Spacer(modifier = Modifier.height(18.dp))
                     Text("Apgar Score", fontSize = 34.sp, fontWeight = FontWeight.ExtraBold,
@@ -174,7 +177,7 @@ fun HomeScreen(
                                 onValueChange = { viewModel.patientName = it },
                                 label = "Baby Name or ID",
                                 placeholder = "e.g. Baby Doe, Patient #001",
-                                emoji = "",
+                                icon = Icons.Default.Face,
                                 accentColor = MedicalTeal,
                                 imeAction = ImeAction.Next
                             )
@@ -184,7 +187,7 @@ fun HomeScreen(
                                 onValueChange = { viewModel.motherName = it },
                                 label = "Mother's Name",
                                 placeholder = "e.g. Maria Silva",
-                                emoji = "",
+                                icon = Icons.Default.Person,
                                 accentColor = PurpleAccent,
                                 imeAction = ImeAction.Next
                             )
@@ -194,7 +197,7 @@ fun HomeScreen(
                                 onValueChange = { viewModel.fatherName = it },
                                 label = "Father's Name",
                                 placeholder = "e.g. João Silva",
-                                emoji = "",
+                                icon = Icons.Default.Person,
                                 accentColor = MedicalBlue,
                                 imeAction = ImeAction.Next
                             )
@@ -204,7 +207,7 @@ fun HomeScreen(
                                 onValueChange = { viewModel.attendingStaff = it },
                                 label = "Attending Nurse / Doctor",
                                 placeholder = "e.g. Nurse Ana Costa",
-                                emoji = "",
+                                icon = Icons.Default.MedicalServices,
                                 accentColor = GoldAccent,
                                 imeAction = ImeAction.Done
                             )
@@ -226,7 +229,10 @@ fun HomeScreen(
                             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
                                 Box(modifier = Modifier.size(56.dp).background(
                                     Brush.radialGradient(listOf(MedicalTeal.copy(alpha = 0.15f), Color.Transparent)),
-                                    CircleShape), contentAlignment = Alignment.Center) { Text("", fontSize = 28.sp) }
+                                    CircleShape), contentAlignment = Alignment.Center) {
+                                    Icon(Icons.Default.Assignment, contentDescription = null,
+                                        tint = MedicalTeal, modifier = Modifier.size(28.dp))
+                                }
                                 Spacer(modifier = Modifier.width(14.dp))
                                 Column(modifier = Modifier.weight(1f)) {
                                     Text("Neonatal Evaluation", fontSize = 18.sp,
@@ -310,10 +316,10 @@ fun HomeScreen(
 
                         val criteria = listOf(
                             Triple("❤️", "Heart Rate", "Pulse / bpm"),
-                            Triple("", "Breathing", "Respiratory effort"),
-                            Triple("", "Reflex", "Reflex irritability"),
-                            Triple("", "Muscle Tone", "Activity / tone"),
-                            Triple("", "Color", "Skin color")
+                            Triple("💨", "Breathing", "Respiratory effort"),
+                            Triple("😮", "Reflex", "Reflex irritability"),
+                            Triple("💪", "Muscle Tone", "Activity / tone"),
+                            Triple("🎨", "Color", "Skin color")
                         )
                         val accentColors = listOf(MedicalBlue, MedicalTeal, GoldAccent, PurpleAccent, ScoreGood)
 
@@ -364,7 +370,6 @@ fun HomeScreen(
 
 /**
  * Reusable input field for birth record entries.
- * Colored emoji badge on the left, accent-colored focus ring, green checkmark when filled.
  */
 @Composable
 private fun BirthInfoField(
@@ -372,7 +377,7 @@ private fun BirthInfoField(
     onValueChange: (String) -> Unit,
     label: String,
     placeholder: String,
-    emoji: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
     accentColor: Color,
     imeAction: ImeAction = ImeAction.Next
 ) {
@@ -391,7 +396,9 @@ private fun BirthInfoField(
                     .size(36.dp)
                     .background(accentColor.copy(alpha = 0.12f), RoundedCornerShape(10.dp)),
                 contentAlignment = Alignment.Center
-            ) { Text(emoji, fontSize = 18.sp) }
+            ) {
+                Icon(icon, contentDescription = null, tint = accentColor, modifier = Modifier.size(20.dp))
+            }
         },
         trailingIcon = {
             if (isFilled) {

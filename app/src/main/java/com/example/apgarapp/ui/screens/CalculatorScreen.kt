@@ -195,6 +195,77 @@ fun CalculatorScreen(
 
             Spacer(modifier = Modifier.height(14.dp))
 
+            // ── Birth Record ───────────────────────────────────────────────
+            Card(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                elevation = CardDefaults.cardElevation(2.dp)
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Default.Person, contentDescription = null,
+                            tint = PurpleAccent, modifier = Modifier.size(18.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Birth Record", fontWeight = FontWeight.Bold,
+                            color = MedicalBlueDark, fontSize = 14.sp)
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    OutlinedTextField(
+                        value = viewModel.patientName,
+                        onValueChange = { viewModel.patientName = it },
+                        label = { Text("Baby's Name") },
+                        leadingIcon = { Icon(Icons.Default.Face, contentDescription = null, modifier = Modifier.size(18.dp)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = viewModel.motherName,
+                        onValueChange = { viewModel.motherName = it },
+                        label = { Text("Mother's Name") },
+                        leadingIcon = { Icon(Icons.Default.Person, contentDescription = null, modifier = Modifier.size(18.dp)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = viewModel.fatherName,
+                        onValueChange = { viewModel.fatherName = it },
+                        label = { Text("Father's Name") },
+                        leadingIcon = { Icon(Icons.Default.Person, contentDescription = null, modifier = Modifier.size(18.dp)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = viewModel.attendingStaff,
+                        onValueChange = { viewModel.attendingStaff = it },
+                        label = { Text("Attending Staff") },
+                        leadingIcon = { Icon(Icons.Default.MedicalServices, contentDescription = null, modifier = Modifier.size(18.dp)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = viewModel.notes,
+                        onValueChange = { viewModel.notes = it },
+                        label = { Text("Clinical Notes") },
+                        leadingIcon = { Icon(Icons.Default.Notes, contentDescription = null, modifier = Modifier.size(18.dp)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        minLines = 2,
+                        maxLines = 4,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
+
             // ── Criteria cards ─────────────────────────────────────────────
             apgarCriteria.forEachIndexed { index, criterion ->
                 ScoreCriterionCard(

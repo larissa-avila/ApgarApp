@@ -52,19 +52,19 @@ enum class ApgarClassification(
         "Normal",
         "The newborn shows good adaptation to the extrauterine environment. Vital signs are stable and reflexes are responsive.",
         "Routine monitoring. Maintain warmth and encourage skin-to-skin contact with the mother.",
-        ""
+        "✅"
     ),
     MODERATE(
         "Moderate",
         "The newborn requires additional stimulation and close monitoring. Some signs of adaptation difficulty are present.",
         "Provide tactile stimulation, administer supplemental oxygen, and monitor continuously for improvement.",
-        ""
+        "⚠️"
     ),
     SEVERE(
         "Critical",
         "The newborn shows significant signs of distress and requires immediate medical intervention.",
         "Initiate immediate neonatal resuscitation. Alert the neonatology team urgently. Do not delay.",
-        ""
+        "🚨"
     )
 }
 
@@ -84,7 +84,7 @@ val apgarCriteria = listOf(
         id = "respiration",
         name = "Breathing",
         description = "Breathing Effort",
-        icon = "",
+        icon = "💨",
         options = listOf(
             ApgarOption(0, "Absent", "No respiratory effort"),
             ApgarOption(1, "Weak / Irregular", "Slow, irregular breathing or weak cry"),
@@ -95,7 +95,7 @@ val apgarCriteria = listOf(
         id = "grimace",
         name = "Reflex",
         description = "Reflex Irritability",
-        icon = "",
+        icon = "😮",
         options = listOf(
             ApgarOption(0, "No Response", "No response to stimulation"),
             ApgarOption(1, "Grimace", "Facial grimace or minimal response"),
@@ -106,7 +106,7 @@ val apgarCriteria = listOf(
         id = "activity",
         name = "Muscle Tone",
         description = "Muscle Tone",
-        icon = "",
+        icon = "💪",
         options = listOf(
             ApgarOption(0, "Limp", "No muscle tone, completely limp"),
             ApgarOption(1, "Some Flexion", "Some flexion of limbs"),
@@ -117,7 +117,7 @@ val apgarCriteria = listOf(
         id = "appearance",
         name = "Color",
         description = "Skin Color",
-        icon = "",
+        icon = "🎨",
         options = listOf(
             ApgarOption(0, "Blue / Pale", "Entire body is blue or pale"),
             ApgarOption(1, "Acrocyanosis", "Body pink, extremities blue"),
